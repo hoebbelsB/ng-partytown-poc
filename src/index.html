@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>PartytownTest</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <script>
+    partytown = {
+      forward: ['dataLayer.push'],
+      debug: true
+    };
+    window.dataLayer = window.dataLayer ?? [];
+  </script>
+
+  <script src="/~partytown/debug/partytown.js"></script>
+
+  <script type="text/partytown">
+    window.dataLayer = window.dataLayer ?? [];
+    const origPush = window.dataLayer.push;
+
+    window.dataLayer.push = (...args) => {
+      console.log('received event', args);
+      for (let i = 0; i < 1_000_000; i++) {
+        const e = document.body.clientWidth;
+      }
+      origPush.call(window.dataLayer, args);
+    }
+  </script>
+</head>
+<body>
+  <app-root></app-root>
+</body>
+</html>
